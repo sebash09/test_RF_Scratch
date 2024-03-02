@@ -1,0 +1,18 @@
+#include <SPI.h>
+#include <RF24.h>
+
+RF24 radio(9, 10); // CE, CSN
+
+void setup() {
+  Serial.begin(115200);
+  radio.begin();
+  radio.openWritingPipe(0xF0F0F0F0E1LL); // Dirección del canal de comunicación
+}
+
+void loop() {
+  const char *mensaje = "Hola, mundo!"; // Mensaje a enviar
+  radio.write(mensaje, strlen(mensaje) + 1);
+  Serial.println("Mensaje enviado: " + String(mensaje));
+  delay(1000); // Espera 1 segundo antes de enviar el siguiente mensaje
+}
+
